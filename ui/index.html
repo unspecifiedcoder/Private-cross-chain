@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XYTHUM BRIDGE TERMINAL</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="scanlines"></div>
+
+<div id="container">
+    <div class="section">
+        <button id="connectBtn" class="btn">CONNECT WALLET</button>
+        <button id="disconnectBtn" class="btn small">DISCONNECT</button>
+    </div>  
+
+    <h1 class="title">XYTHUM <span class="accent">DARKPOOL BRIDGE</span></h1>
+    <p class="subtitle">AVAX (TT) → ALGORAND (ASA)</p>
+
+    <!-- RELAYER STATUS -->
+    <div id="relayerStatus" class="status offline">RELAYER: OFFLINE</div>
+
+    <!-- BALANCES SECTION -->
+    <div class="section">
+        <h2>Wallet Overview</h2>
+
+        <div class="row">
+            <div class="col">
+                <label>TT Balance (AVAX):</label>
+                <div id="ttBalance" class="value">0</div>
+            </div>
+
+            <div class="col">
+                <label>ASA Balance (Algorand):</label>
+                <div id="asaBalance" class="value">0</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label>Approved TT:</label>
+                <div id="approvedAmount" class="value">0</div>
+            </div>
+
+            <div class="col">
+                <button id="refreshBtn" class="btn small">REFRESH</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- BRIDGE FORM -->
+    <div class="section">
+        <h2>Bridge Tokens</h2>
+
+        <label>Algorand Address</label>
+        <input type="text" id="algoAddress" placeholder="PEBXY7..." />
+
+        <label>Amount (TT)</label>
+        <input type="number" id="amountInput" />
+
+        <button id="approveBtn" class="btn">APPROVE</button>
+        <button id="bridgeBtn" class="btn">BRIDGE</button>
+    </div>
+
+
+    <!-- LIVE STATUS -->
+    <div class="section">
+        <h2>Status Monitor</h2>
+        <div id="statusBox" class="terminal"></div>
+    </div>
+
+
+    <!-- SWAP HISTORY -->
+    <div class="section">
+        <h2>Swap History</h2>
+        <div id="historyBox" class="terminal small"></div>
+        <button id="clearHistory" class="btn small">CLEAR HISTORY</button>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.8.0/dist/ethers.umd.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+"name": "relayer",
+"version": "1.0.0",
+"main": "relayer.js",
+"license": "MIT",
+"dependencies": {
+"algosdk": "^1.19.0",
+"ethers": "^6.8.0",
+"dotenv": "^16.0.0"
+}
+}

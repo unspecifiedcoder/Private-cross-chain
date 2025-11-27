@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>XYTHUM Bridge MVP</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.8.0/ethers.umd.min.js"></script>
+
+  <style>
+    body { font-family: Arial; max-width: 480px; margin: auto; padding-top: 40px; }
+    button { padding: 10px 20px; margin-top: 10px; cursor: pointer; }
+    .box { border: 1px solid #ccc; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+    #logs { background: #000; color: #0f0; padding: 10px; height: 150px; overflow-y: scroll; font-size: 12px; }
+  </style>
+
+</head>
+<body>
+
+<h2>XYTHUM AVAX → Algorand Bridge</h2>
+
+<div class="box">
+  <button onclick="connectWallet()">🔌 Connect MetaMask</button>
+  <p id="wallet"></p>
+</div>
+
+<div class="box">
+  <h3>Your TT Balance</h3>
+  <p id="balance">--</p>
+
+  <h4>Approved Amount</h4>
+  <p id="approved">Loading...</p>
+</div>
+
+<div class="box">
+  <h3>Approve LockContract</h3>
+  <input id="approveAmount" placeholder="Amount (e.g. 100)" style="width: 100%; padding: 10px;">
+  <button onclick="approve()">Approve</button>
+  <p id="approveStatus"></p>
+</div>
+
+<div class="box">
+  <h3>Bridge Tokens</h3>
+  <input id="bridgeAmount" placeholder="Amount (e.g. 50)" style="width: 100%; padding: 10px;">
+  <input id="algoAddress" placeholder="Algorand Address" style="width: 100%; padding: 10px; margin-top: 10px;">
+  <button onclick="bridge()">Bridge</button>
+  <p id="bridgeStatus"></p>
+</div>
+
+<div class="box">
+  <h3>Relayer Test</h3>
+  <button onclick="pingRelayer()">Ping Relayer</button>
+  <p id="pingStatus"></p>
+</div>
+
+<div class="box">
+  <h3>Logs</h3>
+  <div id="logs"></div>
+</div>
+
+<script>
+  const TOKEN_ADDRESS = "0xc000e6479C9229Bf82ea9a4c157456A7bc137eC9";
+  const LOCK_ADDRESS  = "0x3d49aC51cd3c8C9503f7b6D3046426FFbcf8748A";
+
+  const tokenAbi = [
+    "function approve(address spender, uint256 amount) public returns (bool)",
+    "function balanceOf(address account) public view returns (uint256)",
+    "function allowance(address owner, address spender) public view returns (uint)"
+  ];
+
+  const lockAbi = [
+    "function lock(uint256 amount, bytes32 swapId, string calldata algoAddress) external"
+  ];
+
+  let provider, signer, addr;
+
+  function log(msg) {
+    document.getElementById("logs").innerHTML += msg + "<br>";
+  }
+
+  async function connectWallet() {
+    provider = new ethers.BrowserProvider(window.ethereum);
+    signer = await provider.getSigner();
+    addr = await signer.getAddress();
+
+    document.getElementById("wallet").innerHTML = "Connected: " + addr;
+    loadBalance();
+    loadApproved();
+  }
+
+  async function loadBalance() {
+    const token = new ethers.Contract(TOKEN_ADDRESS, tokenAbi, provider);
+    const bal = await token.balanceOf(addr);
+    document.getElementById("balance").innerHTML = ethers.formatUnits(bal, 18) + " TT";
+  }
+
+  async function loadApproved() {
+    const token = new ethers.Contract(TOKEN_ADDRESS, tokenAbi, provider);
+    const allowance = await token.allowance(addr, LOCK_ADDRESS);
+    document.getElementById("approved").innerHTML =
+      ethers.formatUnits(allowance, 18) + " TT approved for bridge";
+  }
+
+  async function approve() {
+    const amount = document.getElementById("approveAmount").value;
+    const token = new ethers.Contract(TOKEN_ADDRESS, tokenAbi, signer);
+
+    try {
+      log("Sending approval...");
+      const tx = await token.approve(LOCK_ADDRESS, ethers.parseUnits(amount, 18));
+      await tx.wait();
+      log("✔ Approval complete!");
+      loadApproved();
+    } catch (err) {
+      log("❌ Approve Error: " + err.message);
+    }
+  }
+
+  async function bridge() {
+    const amount = document.getElementById("bridgeAmount").value;
+    const algo = document.getElementById("algoAddress").value;
+
+    const lock = new ethers.Contract(LOCK_ADDRESS, lockAbi, signer);
+    const swapId = ethers.keccak256(ethers.toUtf8Bytes(Date.now().toString()));
+
+    try {
+      log("Locking tokens...");
+      const tx = await lock.lock(
+        ethers.parseUnits(amount, 18),
+        swapId,
+        algo
+      );
+      await tx.wait();
+      log("✔ Locked. SwapID = " + swapId);
+    } catch (err) {
+      log("❌ Lock Error: " + err.message);
+    }
+  }
+
+  async function pingRelayer() {
+    try {
+      const res = await fetch("http://localhost:5001/ping");
+      const txt = await res.text();
+      document.getElementById("pingStatus").innerHTML = "Relayer says: " + txt;
+      log("Ping sent to relayer.");
+    } catch(e) {
+      log("❌ Relayer offline.");
+    }
+  }
+</script>
+
+</body>
+</html>

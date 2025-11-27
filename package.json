@@ -1,0 +1,22 @@
+{
+  "name": "mvp-bridge",
+  "version": "1.0.0",
+  "scripts": {
+    "deploy": "npx hardhat run --network fuji scripts/deploy.js",
+    "relayer": "node relayer/relayer.js",
+    "setup": "node scripts/setup.js",
+    "create-asa": "node algorand/create_asa.js",
+    "test": "npx hardhat test"
+  },
+  "dependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.0",
+    "@openzeppelin/contracts": "^4.9.3",
+    "algosdk": "^2.0.0",
+    "chai": "^4.4.1",
+    "dotenv": "^16.0.0",
+    "ethers": "^6.8.0",
+    "express": "^5.1.0",
+    "hardhat": "^2.17.0"
+  }
+}

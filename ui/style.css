@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+body {
+    background: #000;
+    color: #0aff0a;
+    font-family: 'VT323', monospace;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+#container {
+    width: 720px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 2px solid #0aff0a;
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 20px #0aff0a;
+}
+
+.title {
+    font-size: 48px;
+    text-align: center;
+    text-shadow: 0 0 12px #0aff0a;
+}
+
+.accent {
+    color: #00ff99;
+}
+
+.subtitle {
+    text-align: center;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    opacity: 0.8;
+}
+
+.section {
+    margin-top: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #044;
+}
+
+label {
+    display: block;
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+input {
+    width: 98%;
+    padding: 8px;
+    margin-bottom: 12px;
+    background: black;
+    border: 1px solid #0aff0a;
+    color: #0aff0a;
+    font-size: 20px;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    background: #0aff0a;
+    color: black;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn.small {
+    width: auto;
+    padding: 6px 14px;
+    font-size: 18px;
+}
+
+.btn:hover {
+    background: #00ff99;
+}
+
+.status {
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 22px;
+    border: 1px solid #0aff0a;
+}
+
+.status.online {
+    color: #0aff0a;
+    box-shadow: 0 0 10px #0aff0a;
+}
+
+.status.offline {
+    color: #ff0055;
+    border-color: #ff0055;
+    box-shadow: 0 0 10px #ff0055;
+}
+
+.terminal {
+    height: 160px;
+    overflow-y: auto;
+    background: #001100;
+    padding: 10px;
+    border: 1px solid #033;
+    font-size: 18px;
+}
+
+.terminal.small {
+    height: 120px;
+}
+
+.value {
+    font-size: 22px;
+    margin-left: 10px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.col {
+    width: 48%;
+}
+
+/* CRT Scanline Effect */
+.scanlines {
+    pointer-events: none;
+    position: fixed;
+    top:0; left:0; width:100%; height:100%;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(0,255,0,0.02),
+            rgba(0,255,0,0.02) 2px,
+            rgba(0,0,0,0.05) 3px
+        );
+    z-index: 9999;
+}
