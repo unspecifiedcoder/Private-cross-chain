@@ -10,71 +10,86 @@
 <div class="scanlines"></div>
 
 <div id="container">
-    <div class="section">
-        <button id="connectBtn" class="btn">CONNECT WALLET</button>
-        <button id="disconnectBtn" class="btn small">DISCONNECT</button>
-    </div>  
 
     <h1 class="title">XYTHUM <span class="accent">DARKPOOL BRIDGE</span></h1>
-    <p class="subtitle">AVAX (TT) → ALGORAND (ASA)</p>
+    <p class="subtitle">Private AVAX → Algorand Settlement (MVP Route)</p>
+
+    <!-- CONNECT / DISCONNECT -->
+    <div class="section">
+        <button id="connectBtn" class="btn">CONNECT WALLET</button>
+        <button id="disconnectBtn" class="btn small right">DISCONNECT</button>
+    </div>
 
     <!-- RELAYER STATUS -->
     <div id="relayerStatus" class="status offline">RELAYER: OFFLINE</div>
 
-    <!-- BALANCES SECTION -->
+    <!-- CHAIN SELECTORS & AMOUNT BOXES -->
     <div class="section">
-        <h2>Wallet Overview</h2>
+        <h2>Route Selection</h2>
 
         <div class="row">
             <div class="col">
-                <label>TT Balance (AVAX):</label>
-                <div id="ttBalance" class="value">0</div>
+                <label>FROM CHAIN</label>
+                <select id="fromChain">
+                    <option value="AVAX">AVAX (Fuji)</option>
+                    <option value="ALGO" disabled>Algorand </option>
+                    <option value="MONAD" disabled>Monad </option>
+                </select>
             </div>
-
             <div class="col">
-                <label>ASA Balance (Algorand):</label>
-                <div id="asaBalance" class="value">0</div>
+                <label>TO CHAIN</label>
+                <select id="toChain">
+                    <option value="ALGO">Algorand (Testnet)</option>
+                    <option value="AVAX" disabled>AVAX </option>
+                    <option value="MONAD" disabled>Monad </option>
+                </select>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <label>Approved TT:</label>
-                <div id="approvedAmount" class="value">0</div>
+        <div class="row amount-row">
+            <div class="col panel">
+                <h3>FROM</h3>
+                <div class="chain-tag" id="fromTag">AVAX</div>
+                <label>Amount (TT)</label>
+                <input type="number" id="amountInput" placeholder="1.0" />
+                <div class="mini">Wallet TT Balance: <span id="ttBalance">0</span></div>
             </div>
 
+            <div class="col panel">
+                <h3>TO</h3>
+                <div class="chain-tag" id="toTag">ALGO</div>
+                <label>Estimated Receive (ASA)</label>
+                <div id="outputAmount" class="value big">0</div>
+                <div class="mini">Rate: 1 TT → 1 ASA (MVP)</div>
+            </div>
+        </div>
+
+        <label>Destination Algorand Address</label>
+        <input type="text" id="algoAddress" placeholder="PEBXY7..." />
+
+        <div class="row">
             <div class="col">
+                <label>Approved TT</label>
+                <div id="approvedAmount" class="value">0</div>
+            </div>
+            <div class="col right">
                 <button id="refreshBtn" class="btn small">REFRESH</button>
             </div>
         </div>
+
+        <button id="approveBtn" class="btn">APPROVE TT FOR DARKPOOL</button>
+        <button id="bridgeBtn" class="btn">BRIDGE PRIVATELY</button>
     </div>
 
-
-    <!-- BRIDGE FORM -->
+    <!-- STATUS MONITOR -->
     <div class="section">
-        <h2>Bridge Tokens</h2>
-
-        <label>Algorand Address</label>
-        <input type="text" id="algoAddress" placeholder="PEBXY7..." />
-
-        <label>Amount (TT)</label>
-        <input type="number" id="amountInput" />
-
-        <button id="approveBtn" class="btn">APPROVE</button>
-        <button id="bridgeBtn" class="btn">BRIDGE</button>
-    </div>
-
-
-    <!-- LIVE STATUS -->
-    <div class="section">
-        <h2>Status Monitor</h2>
+        <h2>Darkpool Execution Monitor</h2>
         <div id="statusBox" class="terminal"></div>
     </div>
 
-
     <!-- SWAP HISTORY -->
     <div class="section">
-        <h2>Swap History</h2>
+        <h2>Settlement History</h2>
         <div id="historyBox" class="terminal small"></div>
         <button id="clearHistory" class="btn small">CLEAR HISTORY</button>
     </div>

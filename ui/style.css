@@ -10,16 +10,16 @@ body {
 }
 
 #container {
-    width: 720px;
-    margin: 40px auto;
-    padding: 20px;
+    width: 820px;
+    margin: 30px auto;
+    padding: 20px 30px;
     border: 2px solid #0aff0a;
-    background: rgba(0, 0, 0, 0.8);
-    box-shadow: 0 0 20px #0aff0a;
+    background: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 0 30px #0aff0a;
 }
 
 .title {
-    font-size: 48px;
+    font-size: 44px;
     text-align: center;
     text-shadow: 0 0 12px #0aff0a;
 }
@@ -30,60 +30,64 @@ body {
 
 .subtitle {
     text-align: center;
-    margin-top: -10px;
-    margin-bottom: 20px;
-    font-size: 20px;
-    opacity: 0.8;
+    margin-top: -8px;
+    margin-bottom: 12px;
+    font-size: 18px;
+    opacity: 0.9;
 }
 
 .section {
-    margin-top: 20px;
-    padding-bottom: 10px;
+    margin-top: 18px;
+    padding-bottom: 12px;
     border-bottom: 1px solid #044;
 }
 
 label {
     display: block;
     margin: 5px 0;
-    font-size: 18px;
+    font-size: 16px;
 }
 
-input {
+input, select {
     width: 98%;
-    padding: 8px;
-    margin-bottom: 12px;
+    padding: 6px;
+    margin-bottom: 8px;
     background: black;
     border: 1px solid #0aff0a;
     color: #0aff0a;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .btn {
-    width: 100%;
-    padding: 12px;
+    padding: 10px 18px;
     margin-top: 8px;
+    margin-right: 6px;
     background: #0aff0a;
     color: black;
-    font-size: 24px;
+    font-size: 18px;
     border: none;
     cursor: pointer;
 }
 
 .btn.small {
-    width: auto;
-    padding: 6px 14px;
-    font-size: 18px;
+    padding: 6px 12px;
+    font-size: 15px;
 }
 
 .btn:hover {
     background: #00ff99;
 }
 
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 .status {
     padding: 10px;
     text-align: center;
     margin-bottom: 10px;
-    font-size: 22px;
+    font-size: 18px;
     border: 1px solid #0aff0a;
 }
 
@@ -104,25 +108,56 @@ input {
     background: #001100;
     padding: 10px;
     border: 1px solid #033;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .terminal.small {
-    height: 120px;
+    height: 140px;
 }
 
 .value {
-    font-size: 22px;
-    margin-left: 10px;
+    font-size: 20px;
+    margin-left: 4px;
+}
+
+.value.big {
+    font-size: 28px;
+    margin-top: 10px;
 }
 
 .row {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .col {
     width: 48%;
+}
+
+.panel {
+    border: 1px solid #044;
+    padding: 10px;
+    background: #000c00;
+    box-shadow: 0 0 10px #021;
+}
+
+.chain-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    margin-bottom: 6px;
+    border: 1px solid #0aff0a;
+    font-size: 16px;
+}
+
+.mini {
+    font-size: 13px;
+    margin-top: 4px;
+    opacity: 0.8;
+}
+
+.right {
+    text-align: right;
 }
 
 /* CRT Scanline Effect */
