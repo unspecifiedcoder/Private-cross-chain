@@ -156,6 +156,19 @@ input, select {
     opacity: 0.8;
 }
 
+.address-chip {
+    display: inline-block;
+    border: 1px solid #0aff0a;
+    padding: 2px 8px;
+    font-size: 14px;
+    margin-left: 4px;
+}
+
+.hidden {
+    display: none;
+}
+
+
 .right {
     text-align: right;
 }

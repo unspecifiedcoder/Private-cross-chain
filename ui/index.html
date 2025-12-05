@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>XYTHUM BRIDGE TERMINAL</title>
+    <title>XYTHUM DARKPOOL BRIDGE</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,19 +12,36 @@
 <div id="container">
 
     <h1 class="title">XYTHUM <span class="accent">DARKPOOL BRIDGE</span></h1>
-    <p class="subtitle">Private AVAX → Algorand Settlement (MVP Route)</p>
+    <p class="subtitle">
+        Private Settlement Layer (AVAX ↔ Algorand MVP) – user signs only on source chain,
+        destination is handled by the dark executor.
+    </p>
 
     <!-- CONNECT / DISCONNECT -->
     <div class="section">
         <button id="connectBtn" class="btn">CONNECT WALLET</button>
         <button id="disconnectBtn" class="btn small right">DISCONNECT</button>
+        <div id="connectedInfo" class="mini">
+            Connected EVM wallet: <span id="connectedAddress">–</span>
+        </div>
+      
     </div>
 
     <!-- RELAYER STATUS -->
     <div id="relayerStatus" class="status offline">RELAYER: OFFLINE</div>
 
-    <!-- CHAIN SELECTORS & AMOUNT BOXES -->
+    <!-- MODE TOGGLE -->
     <div class="section">
+        <h2>Route Mode</h2>
+        <div class="row">
+            <button id="modeA2B" class="btn small">AVAX → Algorand</button>
+            <button id="modeB2A" class="btn small">Algorand → AVAX</button>
+        </div>
+    </div>
+
+    <!-- ROUTE SELECTION -->
+    <div class="section">
+
         <h2>Route Selection</h2>
 
         <div class="row">
@@ -32,20 +49,20 @@
                 <label>FROM CHAIN</label>
                 <select id="fromChain">
                     <option value="AVAX">AVAX (Fuji)</option>
-                    <option value="ALGO" disabled>Algorand </option>
-                    <option value="MONAD" disabled>Monad </option>
+                    <option value="ALGO">Algorand (Testnet)</option>
                 </select>
             </div>
+
             <div class="col">
                 <label>TO CHAIN</label>
                 <select id="toChain">
                     <option value="ALGO">Algorand (Testnet)</option>
-                    <option value="AVAX" disabled>AVAX </option>
-                    <option value="MONAD" disabled>Monad </option>
+                    <option value="AVAX">AVAX (Fuji)</option>
                 </select>
             </div>
         </div>
 
+        <!-- AMOUNT BOXES -->
         <div class="row amount-row">
             <div class="col panel">
                 <h3>FROM</h3>
@@ -64,21 +81,51 @@
             </div>
         </div>
 
-        <label>Destination Algorand Address</label>
-        <input type="text" id="algoAddress" placeholder="PEBXY7..." />
+        <!-- AVAX → ALGO -->
+        <div id="a2bBox">
+            <label>Destination Algorand Address</label>
+            <input type="text" id="algoAddress" placeholder="PEBXY7..." />
 
-        <div class="row">
-            <div class="col">
-                <label>Approved TT</label>
-                <div id="approvedAmount" class="value">0</div>
+            <div class="row">
+                <div class="col">
+                    <label>Approved TT</label>
+                    <div id="approvedAmount" class="value">0</div>
+                </div>
+                <div class="col right">
+                    <button id="refreshBtn" class="btn small">REFRESH</button>
+                </div>
             </div>
-            <div class="col right">
-                <button id="refreshBtn" class="btn small">REFRESH</button>
-            </div>
+
+            <button id="approveBtn" class="btn">APPROVE TT FOR DARKPOOL</button>
+            <button id="bridgeBtn" class="btn">BRIDGE PRIVATELY</button>
         </div>
 
-        <button id="approveBtn" class="btn">APPROVE TT FOR DARKPOOL</button>
-        <button id="bridgeBtn" class="btn">BRIDGE PRIVATELY</button>
+        <!-- ALGO → AVAX -->
+        <div id="algoToAvaxBox" class="hidden">
+            
+            <label>Your AVAX Address (receiver)</label>
+            <input type="text" id="targetEvmInput" placeholder="0x..." />
+
+            <p class="mini">
+                This MVP does <b>not</b> connect directly to Algorand wallets.
+                When you press SEND, the dark executor generates an unsigned ASA
+                transaction. Paste it into <b>Lute / Pera</b>, sign it, and once
+                the ASA reaches the pool address, the executor settles TT on AVAX
+                automatically.
+            </p>
+
+            <button id="sendASAButton" class="btn">SEND ASA → AVAX</button>
+
+            <div id="algoQrBox" class="panel hidden" style="margin-top: 12px;">
+                <h3>Scan Transaction</h3>
+                <p class="mini">
+                Scan this QR with your Algorand wallet (Lute / Pera / Defly).  
+                Review the ASA transfer, sign, and submit.
+                </p>
+                <canvas id="asaQrCanvas"></canvas>
+                <p class="mini" id="asaQrHint"></p>
+            </div>
+        </div>
     </div>
 
     <!-- STATUS MONITOR -->
@@ -87,16 +134,18 @@
         <div id="statusBox" class="terminal"></div>
     </div>
 
-    <!-- SWAP HISTORY -->
+    <!-- HISTORY -->
     <div class="section">
         <h2>Settlement History</h2>
         <div id="historyBox" class="terminal small"></div>
-        <button id="clearHistory" class="btn small">CLEAR HISTORY</button>
+        <button id="clearHistory" class="btn small">CLEAR</button>
     </div>
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.8.0/dist/ethers.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+
 <script src="script.js"></script>
 
 </body>
